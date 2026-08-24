@@ -120,9 +120,27 @@ Days with no saved activity correctly render as `0`. The dashboard’s **Weekly 
 | `PUT/DELETE /api/tasks/{id}` | Update or delete a task |
 | `POST /api/focus-sessions` | Record a focus session |
 | `GET /api/analytics/weekly` | Return current-workweek totals and daily trend data |
+| `GET /api/ai/weekly-summary` | Return an AI-generated weekly recap |
 | `GET /api/profile` | Return the authenticated user |
 
 Open `http://localhost:8000/docs` while the API is running for generated interactive documentation.
+
+## AI feature
+
+The `GET /api/ai/weekly-summary` endpoint provides a short, encouraging natural-language recap of the user’s week. It uses an LLM (Anthropic Claude) to generate a 2-3 sentence summary based on the same aggregated data returned by `/api/analytics/weekly`.
+
+**What data is sent to the LLM:**
+- Daily productivity scores (Mon–Fri), each a number 0–100
+- Weekly totals: habit completions count, focus minutes, active habit count, weekly average score
+- The week’s date range (e.g., "Aug 18 – Aug 22, 2025")
+
+**What is NOT sent:**
+- Raw habit logs or individual habit titles
+- Task details or focus session timestamps
+- Any personally identifiable information (email, name, user ID)
+- Any other user’s data
+
+The feature is **optional** and degrades gracefully: if `ANTHROPIC_API_KEY` is not set in the environment, the endpoint returns a deterministic fallback summary instead of calling the LLM. The result is cached for 1 hour per user per week, and the route is rate-limited to 10 requests/minute per user.
 
 ## Run locally
 
