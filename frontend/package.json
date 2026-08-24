@@ -1,0 +1,1 @@
+{"scripts":{"dev":"vite","build":"tsc -b && vite build"},"dependencies":{"@auth0/auth0-react":"^2.2.4","@tanstack/react-query":"^5.59.0","axios":"^1.7.7","react":"^18.3.1","react-dom":"^18.3.1","recharts":"^2.13.3"},"devDependencies":{"@types/react":"^18.3.12","@types/react-dom":"^18.3.1","@vitejs/plugin-react":"^4.3.3","typescript":"^5.6.3","vite":"^5.4.10"}}
